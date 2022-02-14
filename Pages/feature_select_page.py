@@ -1,12 +1,6 @@
-import time
 import pandas as pd
 import streamlit as st
-from sklearn import svm
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression, SGDRegressor, PassiveAggressiveRegressor
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.neural_network import MLPRegressor
-from sklearn.tree import DecisionTreeRegressor
+
 
 from Pages.page import Page
 from config import Config
@@ -17,6 +11,7 @@ def predict(data, model):
     new_data=Config.scaler_x.transform([data])
     res = model.predict(new_data)
     return [res]
+
 
 class FeatureSelectPage(Page):
     def show_page(self):
@@ -39,11 +34,6 @@ class FeatureSelectPage(Page):
                         while i < len(left) and len(feature) < k:
                             feature.add(left[i])
                             i+= 2
-
-                    # st.write(feature)
-                    # if len(feature) < k:
-                    #     st.error("k bigger than length of feature")
-
                     return list(feature)
 
                 support_feature = feature_selection(Config.association_rule_analysis.sort_values('support', ascending=False))
@@ -57,6 +47,16 @@ class FeatureSelectPage(Page):
                 df = pd.DataFrame(data=feature_table)
                 st.write(df)
 
+                support_list = feature_table['support']
+                support_list.append("SalePrice")
+                confidence_list = feature_table['confidence']
+                confidence_list.append("SalePrice")
+                lift_list = feature_table['lift']
+                lift_list.append("SalePrice")
+
+                feature_table = {'support': support_list,
+                                'confidence' : confidence_list,
+                                'lift': lift_list}
                 Config.feature_selection = feature_table
 
                 @st.cache

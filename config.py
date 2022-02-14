@@ -1,7 +1,5 @@
-import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+
 
 def fillna(dataset):
     # Defining numeric and categorical columns
@@ -24,6 +22,7 @@ def fillna(dataset):
     dataset[categorical_columns] = dataset[categorical_columns].fillna('na')
     return dataset
 
+
 class Config:
     # read the database
     house_data = pd.read_csv('data/train.csv', index_col='Id')
@@ -40,4 +39,5 @@ class Config:
     association_rule_table = "Not Found Association Rule Table!!!"
     association_rule_analysis = "Not Found Association Rule Analysis Table!!!"
     feature_selection = "Not Found Feature Selection"
+    predict_feature = "Not Found Predict Feature"
 

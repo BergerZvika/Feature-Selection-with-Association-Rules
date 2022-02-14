@@ -1,28 +1,12 @@
-# data processing
-import math
-import pandas as pd
-import numpy as np
 import streamlit as st
-
-#Patterns Mining
-from efficient_apriori import apriori
-
 import warnings
+warnings.filterwarnings("ignore")
 
 from Pages.model_comparison_page import ModelComparisonPage
-
-warnings.filterwarnings("ignore")
-import sys
-
-Alpha = 2
-
-
 from Pages.datasets_page import DatasetsPage
 from Pages.introduction_page import IntroductionPage
 from Pages.association_rules import AssociationRulesPage
 from Pages.feature_select_page import FeatureSelectPage
-
-# to run:
 from Pages.association_rule_analysis_page import AssociationRuleAnalysisPage
 
 if __name__ == '__main__':
@@ -38,7 +22,7 @@ if __name__ == '__main__':
         "[Project Proposal](https://docs.google.com/document/d/1ZIQc4LTywLEE4cW4iO5XRoU99oeujnbDJJHZpqAo7mU/edit)")
 
     st.sidebar.info("[Report]")
-    st.sidebar.info("[Github]")
+    st.sidebar.info("[Github](https://github.com/BergerZvika/Feature-Selection-with-Association-Rules)")
 
     st.sidebar.title("Related Work")
     st.sidebar.info(

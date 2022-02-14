@@ -1,16 +1,6 @@
-import time
-
-import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 from efficient_apriori import apriori
-from sklearn import svm
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression, SGDRegressor, PassiveAggressiveRegressor
-from sklearn.metrics import r2_score, mean_squared_error
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.neural_network import MLPRegressor
-from sklearn.tree import DecisionTreeRegressor
 
 from Pages.page import Page
 from config import Config
@@ -36,8 +26,6 @@ class AssociationRulesPage(Page):
         if data == "Busiest Airports":
                 dataset = Config.airports_data
 
-        # st.dataframe(dataset)
-
         st.write("""#### Association Rules""")
         support = st.number_input("Choose support threshold (0 - 1):", value=0.1)
 
@@ -54,18 +42,10 @@ class AssociationRulesPage(Page):
                 st.error("Your confidence less than 0")
 
         if st.button("Find Association Rules"):
-                # my_bar = st.progress(0)
-                #
-                # for percent_complete in range(100):
-                #     time.sleep(0.1)
-                #     my_bar.progress(percent_complete + 1)
-
                 dataset_rules = dataset.copy()
                 # Defining numeric and categorical columns
                 numeric_columns = dataset_rules.dtypes[(dataset_rules.dtypes == "float64") | (dataset_rules.dtypes == "int64")].index.tolist()
                 very_numerical = [nc for nc in numeric_columns if dataset_rules[nc].nunique() > 20]
-                categorical_columns = [c for c in dataset_rules.columns if c not in numeric_columns]
-                ordinals = list(set(numeric_columns) - set(very_numerical))
 
                 # Binning all numeric columns in the same manner:
                 for c in very_numerical:
@@ -114,10 +94,8 @@ class AssociationRulesPage(Page):
                             ['len_l', 'len_r', 'count_lhs', 'count_rhs', 'support', 'confidence', 'lift', 'rpf',
                              'conviction']]
 
-
-
                     Config.association_rule_table = rules_df
-                    Config.database = dataset_rules
+                    Config.database = dataset
 
                     st.write(rules_df)
 
@@ -128,4 +106,3 @@ class AssociationRulesPage(Page):
 
                     daownload_table = convert_df(rules_df)
                     st.download_button(label="download table", data=daownload_table, file_name="association_rules.csv", mime='text/csv')
-

@@ -1,12 +1,7 @@
-import numpy as np
 import streamlit as st
-import matplotlib.pyplot as plt
 
 from Pages.page import Page
 from config import Config
-import pandas as pd
-import seaborn as sns
-
 
 
 class AssociationRuleAnalysisPage(Page):
@@ -15,8 +10,6 @@ class AssociationRuleAnalysisPage(Page):
         st.markdown("""In this page we analysis  """)
         st.write("""## Associatiom Rule Table""")
         st.markdown("""      """)
-
-
 
         sort = st.selectbox("Sort by:",
                             ["Default", "Support", "Confidence", "Lift", "Conviction",
@@ -49,8 +42,11 @@ class AssociationRuleAnalysisPage(Page):
                            mime='text/csv')
 
         st.write("""## Select Predict Feature""")
-        feature = st.selectbox("Select Feature:",
-                            list(Config.database.columns))
+        l = list(Config.database.columns)
+        l.reverse()
+        feature = st.selectbox("Select Feature:", l)
+
+        Config.predict_feature = feature
 
         feature_table = table.copy()
         index = []
@@ -59,11 +55,8 @@ class AssociationRuleAnalysisPage(Page):
             if feature not in sp[1]:
                 index.append(i)
 
-        # index = [a for a in feature_table.index if feature not in a]
         feature_remove = feature_table.copy()
         feature_remove = feature_remove.drop(index)
-
-
 
         sort2 = st.selectbox("Sort Table by:",
                             ["Default", "Support", "Confidence", "Lift", "Conviction",
@@ -96,10 +89,3 @@ class AssociationRuleAnalysisPage(Page):
         daownload_table_2 = convert_df(table2)
         st.download_button(label="download table", data=daownload_table_2, file_name="association_rules_analysis2.csv",
                            mime='text/csv')
-
-
-
-
-
-
-

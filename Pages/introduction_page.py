@@ -1,7 +1,6 @@
 import streamlit as st
 
 from Pages.page import Page
-from config import Config
 
 
 class IntroductionPage(Page):

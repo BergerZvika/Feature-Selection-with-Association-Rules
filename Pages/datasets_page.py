@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
 import streamlit as st
 
 from Pages.page import Page
