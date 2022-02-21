@@ -6,22 +6,15 @@ from Pages.page import Page
 from config import Config
 
 
-def predict(data, model):
-    model.fit(Config.X_train, Config.y_train.ravel())
-    new_data=Config.scaler_x.transform([data])
-    res = model.predict(new_data)
-    return [res]
-
-
 class FeatureSelectPage(Page):
     def show_page(self):
             st.write("""# Feature Selectection""")
-            st.markdown("""In this page  """)
+            st.markdown("""In this page you can choose k to find the top k features by support, confidence and lift.""")
 
             st.write("""#### Find Top k features""")
             st.write(Config.association_rule_analysis)
 
-            k = st.number_input("Insert k: ", 1, 10, 5, 1)
+            k = st.number_input("Insert k: ", 1, 20, 5, 1)
             if st.button("Find top k Feature"):
                 def feature_selection(data):
                     feature = set()
@@ -33,7 +26,7 @@ class FeatureSelectPage(Page):
                         i = 0
                         while i < len(left) and len(feature) < k:
                             feature.add(left[i])
-                            i+= 2
+                            i += 2
                     return list(feature)
 
                 support_feature = feature_selection(Config.association_rule_analysis.sort_values('support', ascending=False))
@@ -47,16 +40,6 @@ class FeatureSelectPage(Page):
                 df = pd.DataFrame(data=feature_table)
                 st.write(df)
 
-                support_list = feature_table['support']
-                support_list.append("SalePrice")
-                confidence_list = feature_table['confidence']
-                confidence_list.append("SalePrice")
-                lift_list = feature_table['lift']
-                lift_list.append("SalePrice")
-
-                feature_table = {'support': support_list,
-                                'confidence' : confidence_list,
-                                'lift': lift_list}
                 Config.feature_selection = feature_table
 
                 @st.cache

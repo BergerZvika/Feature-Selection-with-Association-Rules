@@ -9,24 +9,38 @@ from config import Config
 class AssociationRulesPage(Page):
     def show_page(self):
         st.write("""# Association Rules """)
-        st.markdown("""This page find association rules on dataset with apriori algorithm""")
+        st.markdown(
+            "In this page, you can find all the association rules on the dataset by using the A-priori algorithm."
+            " After choosing the wanted dataset, choose the threshold for the support and confidence. A table"
+            " with all the matching rules will be shown.")
         st.markdown("""  """)
         st.markdown("""## Find Association Rules on your Data""")
         st.write("""#### Dataset""")
         data = st.selectbox("Choose Dataset:",
                                    ["House Sale Price", "Imdb Movies", "Uber", "Busiest Airports"])
 
-        dataset = ""
+        dataset = {}
         if data == "House Sale Price":
-                dataset = Config.house_data
+                dataset = Config.house_data.sample(frac=1).reset_index(drop=True)
+                Config.test = dataset[int((len(Config.house_data)/5)*4):]
+                dataset = dataset[:int((len(Config.house_data)/5)*4)]
         if data == "Imdb Movies":
-                dataset = Config.imdb_data
+                dataset = Config.imdb_data(frac=1).reset_index(drop=True)
+                Config.test = dataset[int((len(Config.imdb_data) / 5) * 4):]
+                dataset = dataset[:int((len(Config.imdb_data)/5)*4)]
         if data == "Uber":
-                dataset = Config.uber_data
+                dataset = Config.uber_data(frac=1).reset_index(drop=True)
+                Config.test = dataset[int((len(Config.uber_data) / 5) * 4):]
+                dataset = dataset[:int((len(Config.uber_data)/5)*4)]
         if data == "Busiest Airports":
-                dataset = Config.airports_data
+                dataset = Config.airports_data(frac=1).reset_index(drop=True)
+                Config.test = dataset[int((len(Config.airports_data) / 5) * 4):]
+                dataset = dataset[:int((len(Config.airports_data)/5)*4)]
+
 
         st.write("""#### Association Rules""")
+        st.write("In order to find more accurate results, entering minimum support and confidence can help us filter"
+                 " less informative rules.")
         support = st.number_input("Choose support threshold (0 - 1):", value=0.1)
 
         if support > 1:

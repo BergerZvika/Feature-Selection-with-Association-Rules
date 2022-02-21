@@ -7,9 +7,12 @@ from config import Config
 class AssociationRuleAnalysisPage(Page):
     def show_page(self):
         st.write("""# Association Rule Analysis""")
-        st.markdown("""In this page we analysis  """)
+        st.write("By the given support and confidence thresholds, in this page we can analise all the association"
+                    " rules we received. In cases of large amount of rules, watching them in a table with all of their"
+                    " information and sorting them by a specific concept can help us understand them better.""")
         st.write("""## Associatiom Rule Table""")
-        st.markdown("""      """)
+        st.markdown("Here you can see all of the rules of the chosen dataset in a table. You can sort them by each"
+                    " calculated concept, from high to low, such as support and confidence.")
 
         sort = st.selectbox("Sort by:",
                             ["Default", "Support", "Confidence", "Lift", "Conviction",

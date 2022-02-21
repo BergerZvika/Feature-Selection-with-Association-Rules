@@ -16,11 +16,13 @@ import xgboost as xgb
 from Pages.page import Page
 from config import Config
 
-
-def evaluation(model, data):
+def train_split(data):
     x = data.drop(Config.predict_feature, axis=1)
     y = data[Config.predict_feature]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+    return x_train, x_test, y_train, y_test
+
+def evaluation(model, x_train, x_test, y_train, y_test):
     model.fit(x_train, y_train)
     y_predict = model.predict(x_test)
     mse = mean_squared_error(y_test, y_predict)
@@ -66,22 +68,34 @@ class ModelComparisonPage(Page):
                 (Config.database.dtypes == "float64") | (Config.database.dtypes == "int64")].index.tolist()
             categorical_columns = [c for c in Config.database.columns if c not in numeric_columns]
 
-            data_enconder = Config.database.copy()
+            data_enconder_train = Config.database.copy()
             labelencoder = LabelEncoder()
             for c in categorical_columns:
-                data_enconder[c] = labelencoder.fit_transform(data_enconder[c])
+                data_enconder_train[c] = labelencoder.fit_transform(data_enconder_train[c])
 
+            data_enconder_test = Config.test.copy()
+            labelencoder = LabelEncoder()
+            for c in categorical_columns:
+                data_enconder_test[c] = labelencoder.fit_transform(data_enconder_test[c])
 
+            x_train = data_enconder_train.drop(Config.predict_feature, axis=1)
+            x_test = data_enconder_test.drop(Config.predict_feature, axis=1)
+            y_train = data_enconder_train[Config.predict_feature]
+            y_test = data_enconder_test[Config.predict_feature]
+            # x_train, x_test, y_train, y_test = train_split(data_enconder_test)
 
-            df = data_enconder
-            df_support = df[Config.feature_selection['support']]
-            df_confidence = df[Config.feature_selection['confidence']]
-            df_lift = df[Config.feature_selection['lift']]
+            # df = data_enconder
+            x_train_support = x_train[Config.feature_selection['support']]
+            x_test_support = x_test[Config.feature_selection['support']]
+            x_train_confidence = x_train[Config.feature_selection['confidence']]
+            x_test_confidence = x_test[Config.feature_selection['confidence']]
+            x_train_lift = x_train[Config.feature_selection['lift']]
+            x_test_lift = x_test[Config.feature_selection['lift']]
 
-            mse_data, r2_data, eva_data = evaluation(model, df)
-            mse_support, r2_support, eva_support = evaluation(model, df_support)
-            mse_confidence, r2_confidence, eva_confidence = evaluation(model, df_confidence)
-            mse_lift, r2_lift, eva_lift = evaluation(model, df_lift)
+            mse_data, r2_data, eva_data = evaluation(model, x_train, x_test, y_train, y_test)
+            mse_support, r2_support, eva_support = evaluation(model, x_train_support, x_test_support, y_train, y_test)
+            mse_confidence, r2_confidence, eva_confidence = evaluation(model, x_train_confidence, x_test_confidence, y_train, y_test)
+            mse_lift, r2_lift, eva_lift = evaluation(model, x_train_lift, x_test_lift, y_train, y_test)
 
             st.write(f"### Comparison Table by {machine}""")
 

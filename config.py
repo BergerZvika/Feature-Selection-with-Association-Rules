@@ -40,4 +40,5 @@ class Config:
     association_rule_analysis = "Not Found Association Rule Analysis Table!!!"
     feature_selection = "Not Found Feature Selection"
     predict_feature = "Not Found Predict Feature"
+    test = "Not Found Test"
 
