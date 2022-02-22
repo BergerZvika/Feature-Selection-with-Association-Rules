@@ -16,11 +16,13 @@ import xgboost as xgb
 from Pages.page import Page
 from config import Config
 
+
 def train_split(data):
     x = data.drop(Config.predict_feature, axis=1)
     y = data[Config.predict_feature]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
     return x_train, x_test, y_train, y_test
+
 
 def evaluation(model, x_train, x_test, y_train, y_test):
     model.fit(x_train, y_train)
@@ -38,7 +40,6 @@ class ModelComparisonPage(Page):
         machine = st.selectbox("Choose Model:",
                                ["Linear Regression", "Decision Tree", "Random Forest", "AdaBoost"
                                    , "XGBoost", "SVR", "Neural Network", "SGD", "KNN", "Passive Aggressive"])
-
         if st.button("Predict"):
             model = LinearRegression()
             if machine == "Linear Regression":
@@ -91,18 +92,21 @@ class ModelComparisonPage(Page):
             x_test_confidence = x_test[Config.feature_selection['confidence']]
             x_train_lift = x_train[Config.feature_selection['lift']]
             x_test_lift = x_test[Config.feature_selection['lift']]
+            x_train_lift_distance = x_train[Config.feature_selection['lift_distance_to_1']]
+            x_test_lift_distance = x_test[Config.feature_selection['lift_distance_to_1']]
 
             mse_data, r2_data, eva_data = evaluation(model, x_train, x_test, y_train, y_test)
             mse_support, r2_support, eva_support = evaluation(model, x_train_support, x_test_support, y_train, y_test)
             mse_confidence, r2_confidence, eva_confidence = evaluation(model, x_train_confidence, x_test_confidence, y_train, y_test)
             mse_lift, r2_lift, eva_lift = evaluation(model, x_train_lift, x_test_lift, y_train, y_test)
+            mse_lift_distance, r2_lift_distance, eva_lift_distance = evaluation(model, x_train_lift_distance, x_test_lift_distance, y_train, y_test)
 
             st.write(f"### Comparison Table by {machine}""")
 
-            r2 = [r2_data, r2_support, r2_confidence, r2_lift]
-            mse = [mse_data, mse_support, mse_confidence, mse_lift]
+            r2 = [r2_data, r2_support, r2_confidence, r2_lift, r2_lift_distance]
+            mse = [mse_data, mse_support, mse_confidence, mse_lift, mse_lift_distance]
             data_table = {'Features': ['All Features', 'Select feature by support', 'Select feature by confidence',
-                                       'Select feature by lift'],
+                                       'Select feature by lift', 'Select feature by distance lift to 1'],
                           'R-Square Score': r2,
                           'Mean Sqaure Error': mse,
                           }
@@ -153,3 +157,12 @@ class ModelComparisonPage(Page):
             plt.title("Feature Selection by lift")
             st.pyplot(fig)
             st.markdown("""""")
+
+            fig, ax = plt.subplots()
+            plt.plot(eva_lift_distance[0], eva_lift_distance[1], "^", color='#EDB120')
+            plt.ylabel("Actual")
+            plt.xlabel("Predict")
+            plt.title("Feature Selection by lift distance to 1")
+            st.pyplot(fig)
+            st.markdown("""""")
+

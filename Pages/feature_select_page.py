@@ -33,13 +33,19 @@ class FeatureSelectPage(Page):
                 confidence_feature = feature_selection(Config.association_rule_analysis.sort_values('confidence', ascending=False))
                 lift_feature = feature_selection(Config.association_rule_analysis.sort_values('lift', ascending=False))
 
-                # for i in Config.association_rule_analysis.index():
-                #     Config.association_rule_analysis.set_value(i, 'lift', abs())
+                index = 0
+                for i in Config.association_rule_analysis.index:
+                    Config.association_rule_analysis.at[i, 'lift'] = abs(Config.association_rule_analysis.iloc[index]['lift'] - 1)
+                    index += 1
+
+                lift_distance_feature = feature_selection(Config.association_rule_analysis.sort_values('lift', ascending=False))
 
                 st.markdown("""Top k feature """)
                 feature_table = {'support' : support_feature,
                       'confidence' : confidence_feature,
-                      'lift': lift_feature}
+                      'lift': lift_feature,
+                        'lift_distance_to_1': lift_distance_feature}
+
                 df = pd.DataFrame(data=feature_table)
                 st.write(df)
 
