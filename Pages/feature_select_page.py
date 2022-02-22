@@ -33,8 +33,8 @@ class FeatureSelectPage(Page):
                 confidence_feature = feature_selection(Config.association_rule_analysis.sort_values('confidence', ascending=False))
                 lift_feature = feature_selection(Config.association_rule_analysis.sort_values('lift', ascending=False))
 
-                for i in Config.association_rule_analysis.index():
-                    Config.association_rule_analysis.set_value(i, 'lift', abs())
+                # for i in Config.association_rule_analysis.index():
+                #     Config.association_rule_analysis.set_value(i, 'lift', abs())
 
                 st.markdown("""Top k feature """)
                 feature_table = {'support' : support_feature,
