@@ -8,7 +8,7 @@ from config import Config
 
 class FeatureSelectPage(Page):
     def show_page(self):
-            st.write("""# Feature Selectection""")
+            st.write("""# Feature Selection""")
             st.markdown("""In this page you can choose k to find the top k features by support, confidence and lift.""")
 
             st.write("""#### Find Top k features""")
@@ -40,7 +40,7 @@ class FeatureSelectPage(Page):
 
                 lift_distance_feature = feature_selection(Config.association_rule_analysis.sort_values('lift', ascending=False))
 
-                st.markdown("""Top k feature """)
+                st.write("""### Top k features""")
                 feature_table = {'support' : support_feature,
                       'confidence' : confidence_feature,
                       'lift': lift_feature,

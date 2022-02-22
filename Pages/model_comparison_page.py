@@ -35,7 +35,10 @@ def evaluation(model, x_train, x_test, y_train, y_test):
 class ModelComparisonPage(Page):
     def show_page(self):
         st.write("""# Model Comparison""")
-        st.markdown("""This page compare """)
+        st.markdown("""Here you can choose a model to compare from a wide selection of models. After choosing a model
+         and predicting, you will see a table showing the R-square error and the mean square error of the predictions 
+         for the feature by their concept. These are followed by graphs representing the predictions of the chosen 
+         model by each concept and by no selection at all.""")
 
         machine = st.selectbox("Choose Model:",
                                ["Linear Regression", "Decision Tree", "Random Forest", "AdaBoost"
@@ -102,6 +105,8 @@ class ModelComparisonPage(Page):
             mse_lift_distance, r2_lift_distance, eva_lift_distance = evaluation(model, x_train_lift_distance, x_test_lift_distance, y_train, y_test)
 
             st.write(f"### Comparison Table by {machine}""")
+            st.markdown("For each featues predicted, the table contains the R-square error of the predictions and their mean squared "
+                        "error regression loss.")
 
             r2 = [r2_data, r2_support, r2_confidence, r2_lift, r2_lift_distance]
             mse = [mse_data, mse_support, mse_confidence, mse_lift, mse_lift_distance]
@@ -125,6 +130,8 @@ class ModelComparisonPage(Page):
 
             # graph
             st.write(f'### {machine} Graphs')
+            st.markdown("The graphs show the prediction of the model for the feature against the actual value of it. "
+                        "Each orange triangle represents a show of the feature in the dataset.")
 
             fig, ax = plt.subplots()
             plt.plot(eva_data[0], eva_data[1], "^", color='#EDB120')

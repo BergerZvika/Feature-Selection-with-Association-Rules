@@ -15,9 +15,9 @@ if __name__ == '__main__':
                                            "Association Rule Analysis", "Feature Selection", "Model Comparison"))
     st.sidebar.title("Details")
     st.sidebar.info(
-        "Author: Zvi Berger and Ofir Nassimi")
+        "Authors: Zvi Berger and Ofir Nassimi")
     st.sidebar.info(
-        "This Project analyzing associations rules on different datasets for feature selection")
+        "This Project analyzes associations rules on different datasets for feature selection")
     st.sidebar.info(
         "[Project Proposal](https://docs.google.com/document/d/1ZIQc4LTywLEE4cW4iO5XRoU99oeujnbDJJHZpqAo7mU/edit)")
 
