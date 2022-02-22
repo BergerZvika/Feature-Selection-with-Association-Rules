@@ -26,9 +26,10 @@ if __name__ == '__main__':
 
     st.sidebar.title("Related Work")
     st.sidebar.info(
-        "[Analyzing students’ answers using association rule mining based on feature selection](https://jsju.org/index.php/journal/article/view/236)")
+        "[Feature Selection Algorithm Based on Association Rules Mining Method](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5222899)")
+
     st.sidebar.info(
-        "[Feature Selection by Mining Optimized Association Rules based on Apriori Algorithm](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.695.1446&rep=rep1&type=pdf)")
+        "[A new feature selection method based on association rules for diagnosis of erythemato-squamous diseases](https://reader.elsevier.com/reader/sd/pii/S0957417409003728?token=A6C5E697E425EBF0104E836671C78B3C3742AA3373B0962D3C03A6AE8FF3B6ABE7EE94522A9E64400349D75989E28DE1&originRegion=eu-west-1&originCreation=20220221130014)")
 
     st.sidebar.title("Kaggle Dataset")
     st.sidebar.info(
