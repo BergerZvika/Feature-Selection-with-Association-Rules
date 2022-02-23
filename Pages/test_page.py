@@ -45,8 +45,8 @@ def find_rules(support, confidence, transactions):
         rules_df = rules_df[
             ['len_l', 'len_r', 'count_lhs', 'count_rhs', 'support', 'confidence', 'lift', 'rpf',
              'conviction']]
-        st.write(f"Finish find associations rules with support {support}.")
-        Config.file.write(f'we found {len(rules)} rules with {support} support and {confidence} confidence\n')
+        st.write(f"Finished to find associations rules with support={support}.")
+        Config.file.write(f'{len(rules)} rules with support={support} and confidence={confidence} were found.\n')
         return rules_df
 
 def anylisis_rules(df, predict_feature, support):
@@ -59,8 +59,8 @@ def anylisis_rules(df, predict_feature, support):
 
     feature_remove = feature_table.copy()
     feature_remove = feature_remove.drop(index)
-    Config.file.write(f'we found {len(feature_remove)} rules which correlation with {predict_feature}.\n')
-    st.write(f'Finish process association rules analysis with {support} support.')
+    st.write(f'Association rules analysis process for support={support} is done.')
+    Config.file.write(f'{len(feature_remove)} rules with correlation to {predict_feature} were found.\n')
     return feature_remove
 
 def select_feature(df, k, support):
@@ -94,7 +94,7 @@ def select_feature(df, k, support):
                      'lift_distance_to_1': lift_distance_feature}
 
     data = pd.DataFrame(data=feature_table)
-    st.write(f'Finish select feature with {support} support in k={k}.')
+    st.write(f'Feature selection for k={k} and support={support} is done.')
     return data
 
 def evaluation(model, x_train, x_test, y_train, y_test):
@@ -210,7 +210,7 @@ def models_comparison(directory, features, predict_feature, support, k):
         plt.savefig(image)
 
         i += 1
-    st.write(f'Finish models comparison with {support} support in k={k}.')
+    st.write(f'Models comparison for k={k} and support={support} is done.')
 
 class TestPage(Page):
     def show_page(self):
@@ -220,7 +220,30 @@ class TestPage(Page):
         except:
             directory = Path(f'./tests')
         st.write("""# Test Page """)
-        st.markdown("""In this page """)
+        st.markdown("""In this test page, you can make tests on the datasets and find association rules, analyze them, 
+        do feature selection by different top k and compare models. First you need to choose a dataset and the number 
+        of tests you want. Each test finds association rules with 3 constant support thresholds - 0.1, 0.05, 0.01 and 
+        analyzes them. In the next step, The program do the feature selection process for 4 constant k - 3, 5, 7, 10. 
+        In the last step, the models are compared.""")
+        st.markdown("""Every test is saved under a folder named by the dataset name, which is located inside "tests" 
+        folder""")
+        st.write("""### Test results:""")
+        st.markdown("""
+        After all the tests are done, every test folder contains the following:
+        * Statistics text file - shows these statistics:
+            * Number of rules found for each support
+            * Number of rules correlated to the selected feature
+        * Train csv file - all the data that used t train the model
+        * Test csv file - all the data that used to test the model
+        * 3 supports folders - one for each support, contains 4 folders for each k and these folders contain folders 
+            for each model showed in class. Every model folder contains:
+            * Model without feature selection graph
+            * Model with feature selection by support graph
+            * Model with feature selection by confidence graph
+            * Model with feature selection by lift graph
+            * Model with feature selection by lift distance to 1 graph
+            * Models comparison csv file of R-square error and mean square error
+        """)
 
         data = st.selectbox("Choose Dataset:",
                                    ["House Sale Price", "Imdb Movies", "Uber", "Busiest Airports"])
@@ -248,116 +271,132 @@ class TestPage(Page):
                 Config.test = dataset[int((len(Config.airports_data) / 5) * 4):]
                 dataset = dataset[:int((len(Config.airports_data)/5)*4)]
 
+        iterations = st.number_input("Choose number of tests (1-20):", value=3)
+        if iterations > 20:
+            st.error("Too many tests")
+        if iterations < 0:
+            st.error("Number of tests is less than 1")
+
         if st.button("Test"):
-            st.write("start testing please wait few minutes...")
+            st.write("Start testing. This may take a few minutes..")
             try:
                 directory_path = Path(f'./tests/{data}')
                 os.mkdir(directory_path, 0o666)
             except:
                 directory_path = Path(f'./tests/{data}')
-
-            Config.file = open(f'{directory_path}/statistics.txt', 'w')
-            Config.file.write(f'{data} Test\n\n')
-
             save_table(df, directory_path, f'{data}.csv')
-            save_table(dataset, directory_path, 'train.csv')
-            save_table(Config.test, directory_path, 'test.csv')
 
-            #### associations rules fund
-            dataset_rules = dataset.copy()
-            # Defining numeric and categorical columns
-            numeric_columns = dataset_rules.dtypes[
-                (dataset_rules.dtypes == "float64") | (dataset_rules.dtypes == "int64")].index.tolist()
-            very_numerical = [nc for nc in numeric_columns if dataset_rules[nc].nunique() > 20]
-
-            # Binning all numeric columns in the same manner:
-            for c in very_numerical:
+            for i in range(iterations):
+                st.write(f'Start test number {i + 1}')
                 try:
-                    dataset_rules[c] = pd.qcut(dataset_rules[c], 5,
-                                               labels=["very low", "low", "medium", "high", "very high"])
+                    directory_path = Path(f'./tests/{data}/test{i+1}')
+                    os.mkdir(directory_path, 0o666)
                 except:
-                    # sometimes for highly skewed data, we cannot perform qcut as most quantiles are equal
-                    dataset_rules[c] = pd.cut(dataset_rules[c], 5,
-                                              labels=["very low", "low", "medium", "high", "very high"])
+                    directory_path = Path(f'./tests/{data}/test{i+1}')
 
-            if data == "House Sale Price":
-                good_columns = ['OverallQual', 'YearBuilt', 'YearRemodAdd', 'OverallQual', 'OverallCond', 'BldgType',
-                                'LotArea', 'GrLivArea', 'FullBath', 'BedroomAbvGr', 'LotFrontage', 'TotalBsmtSF',
-                                'SalePrice']
-                dataset_rules = dataset_rules[good_columns]
+                Config.file = open(f'{directory_path}/statistics.txt', 'w')
+                Config.file.write(f'{data} Test {i+1}\n\n')
 
-            records = dataset_rules.to_dict(orient='records')
-            transactions = []
-            for r in records:
-                transactions.append(list(r.items()))
+                save_table(dataset, directory_path, 'train.csv')
+                save_table(Config.test, directory_path, 'test.csv')
 
-            try:
-                directory_support_1 = Path(f'./tests/{data}/support 0.1')
-                os.mkdir(directory_support_1, 0o666)
-            except:
-                directory_support_1 = Path(f'./tests/{data}/support 0.1')
-            rules_1 = find_rules(support=0.1, confidence=0.6, transactions=transactions)
-            save_table(rules_1, directory_support_1, 'associations_rules.csv')
+                #### associations rules fund
+                dataset_rules = dataset.copy()
+                # Defining numeric and categorical columns
+                numeric_columns = dataset_rules.dtypes[
+                    (dataset_rules.dtypes == "float64") | (dataset_rules.dtypes == "int64")].index.tolist()
+                very_numerical = [nc for nc in numeric_columns if dataset_rules[nc].nunique() > 20]
 
-            try:
-                directory_support_05 = Path(f'./tests/{data}/support 0.05')
-                os.mkdir(directory_support_05, 0o666)
-            except:
-                directory_support_05 = Path(f'./tests/{data}/support 0.05')
-            rules_2 = find_rules(support=0.05, confidence=0.6, transactions=transactions)
-            save_table(rules_2, directory_support_05, 'associations_rules.csv')
+                # Binning all numeric columns in the same manner:
+                for c in very_numerical:
+                    try:
+                        dataset_rules[c] = pd.qcut(dataset_rules[c], 5,
+                                                   labels=["very low", "low", "medium", "high", "very high"])
+                    except:
+                        # sometimes for highly skewed data, we cannot perform qcut as most quantiles are equal
+                        dataset_rules[c] = pd.cut(dataset_rules[c], 5,
+                                                  labels=["very low", "low", "medium", "high", "very high"])
 
-            try:
-                directory_support_01 = Path(f'./tests/{data}/support 0.01')
-                os.mkdir(directory_support_01, 0o666)
-            except:
-                directory_support_01 = Path(f'./tests/{data}/support 0.01')
-            rules_3 = find_rules(support=0.01, confidence=0.6, transactions=transactions)
-            save_table(rules_3, directory_support_01, 'associations_rules.csv')
-            Config.file.write('\n')
+                if data == "House Sale Price":
+                    good_columns = ['OverallQual', 'YearBuilt', 'YearRemodAdd', 'OverallQual', 'OverallCond',
+                                    'BldgType',
+                                    'LotArea', 'GrLivArea', 'FullBath', 'BedroomAbvGr', 'LotFrontage', 'TotalBsmtSF',
+                                    'SalePrice']
+                    dataset_rules = dataset_rules[good_columns]
 
-            #### associations rules analysis
-            l = list(Config.database.columns)
-            l.reverse()
-            Config.predict_feature = l[0]
+                records = dataset_rules.to_dict(orient='records')
+                transactions = []
+                for r in records:
+                    transactions.append(list(r.items()))
 
-            anylisis_table_1 = anylisis_rules(rules_1, Config.predict_feature, 0.1)
-            save_table(anylisis_table_1, directory_support_1, 'associations_rules_analysis.csv')
-            anylisis_table_2 = anylisis_rules(rules_2, Config.predict_feature, 0.05)
-            save_table(anylisis_table_2, directory_support_05, 'associations_rules_analysis.csv')
-            anylisis_table_3 = anylisis_rules(rules_3, Config.predict_feature, 0.01)
-            save_table(anylisis_table_3, directory_support_01, 'associations_rules_analysis.csv')
-            Config.file.write('\n')
-
-            ### feature select
-            K = [3, 5, 7, 10]
-            for k in K:
                 try:
-                    path1 = Path(f'{directory_support_1}/k={k}')
-                    os.mkdir(path1, 0o666)
+                    directory_support_1 = Path(f'./tests/{data}/test{i+1}/support 0.1')
+                    os.mkdir(directory_support_1, 0o666)
                 except:
-                    path1 = Path(f'{directory_support_1}/k={k}')
-                feature_table_1_k = select_feature(anylisis_table_1, k, 0.1)
-                save_table(feature_table_1_k, path1, f'select_feature_table_k={k}.csv')
-                try:
-                    path2 = Path(f'{directory_support_05}/k={k}')
-                    os.mkdir(path2, 0o666)
-                except:
-                    path2 = Path(f'{directory_support_05}/k={k}')
-                feature_table_05_k = select_feature(anylisis_table_2, k, 0.05)
-                save_table(feature_table_05_k, path2, f'select_feature_table_k={k}.csv')
-                try:
-                    path3 = Path(f'{directory_support_01}/k={k}')
-                    os.mkdir(path3, 0o666)
-                except:
-                    path3 = Path(f'{directory_support_01}/k={k}')
-                feature_table_01_k = select_feature(anylisis_table_3, k, 0.01)
-                save_table(feature_table_01_k, path3, f'select_feature_table_k={k}.csv')
+                    directory_support_1 = Path(f'./tests/{data}/test{i+1}/support 0.1')
+                rules_1 = find_rules(support=0.1, confidence=0.6, transactions=transactions)
+                save_table(rules_1, directory_support_1, 'associations_rules.csv')
 
-                ### models comparison
-                models_comparison(path1, feature_table_1_k, Config.predict_feature, 0.1, k)
-                models_comparison(path2, feature_table_05_k, Config.predict_feature, 0.05, k)
-                models_comparison(path3, feature_table_01_k, Config.predict_feature, 0.01, k)
+                try:
+                    directory_support_05 = Path(f'./tests/{data}/test{i+1}/support 0.05')
+                    os.mkdir(directory_support_05, 0o666)
+                except:
+                    directory_support_05 = Path(f'./tests/{data}/test{i+1}/support 0.05')
+                rules_2 = find_rules(support=0.05, confidence=0.6, transactions=transactions)
+                save_table(rules_2, directory_support_05, 'associations_rules.csv')
+
+                try:
+                    directory_support_01 = Path(f'./tests/{data}/test{i+1}/support 0.01')
+                    os.mkdir(directory_support_01, 0o666)
+                except:
+                    directory_support_01 = Path(f'./tests/{data}/test{i+1}/support 0.01')
+                rules_3 = find_rules(support=0.01, confidence=0.6, transactions=transactions)
+                save_table(rules_3, directory_support_01, 'associations_rules.csv')
+                Config.file.write('\n')
+
+                #### associations rules analysis
+                l = list(Config.database.columns)
+                l.reverse()
+                Config.predict_feature = l[0]
+
+                anylisis_table_1 = anylisis_rules(rules_1, Config.predict_feature, 0.1)
+                save_table(anylisis_table_1, directory_support_1, 'associations_rules_analysis.csv')
+                anylisis_table_2 = anylisis_rules(rules_2, Config.predict_feature, 0.05)
+                save_table(anylisis_table_2, directory_support_05, 'associations_rules_analysis.csv')
+                anylisis_table_3 = anylisis_rules(rules_3, Config.predict_feature, 0.01)
+                save_table(anylisis_table_3, directory_support_01, 'associations_rules_analysis.csv')
+                Config.file.write('\n')
+
+                ### feature select
+                K = [3, 5, 7, 10]
+                for k in K:
+                    try:
+                        path1 = Path(f'{directory_support_1}/k={k}')
+                        os.mkdir(path1, 0o666)
+                    except:
+                        path1 = Path(f'{directory_support_1}/k={k}')
+                    feature_table_1_k = select_feature(anylisis_table_1, k, 0.1)
+                    save_table(feature_table_1_k, path1, f'select_feature_table_k={k}.csv')
+                    try:
+                        path2 = Path(f'{directory_support_05}/k={k}')
+                        os.mkdir(path2, 0o666)
+                    except:
+                        path2 = Path(f'{directory_support_05}/k={k}')
+                    feature_table_05_k = select_feature(anylisis_table_2, k, 0.05)
+                    save_table(feature_table_05_k, path2, f'select_feature_table_k={k}.csv')
+                    try:
+                        path3 = Path(f'{directory_support_01}/k={k}')
+                        os.mkdir(path3, 0o666)
+                    except:
+                        path3 = Path(f'{directory_support_01}/k={k}')
+                    feature_table_01_k = select_feature(anylisis_table_3, k, 0.01)
+                    save_table(feature_table_01_k, path3, f'select_feature_table_k={k}.csv')
+
+                    ### models comparison
+                    models_comparison(path1, feature_table_1_k, Config.predict_feature, 0.1, k)
+                    models_comparison(path2, feature_table_05_k, Config.predict_feature, 0.05, k)
+                    models_comparison(path3, feature_table_01_k, Config.predict_feature, 0.01, k)
+
 
             st.write("Done")
             Config.file.close()
