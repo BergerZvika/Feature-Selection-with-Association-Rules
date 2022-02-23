@@ -249,6 +249,7 @@ class TestPage(Page):
                 dataset = dataset[:int((len(Config.airports_data)/5)*4)]
 
         if st.button("Test"):
+            st.write("start testing please wait few minutes...")
             try:
                 directory_path = Path(f'./tests/{data}')
                 os.mkdir(directory_path, 0o666)
@@ -357,37 +358,6 @@ class TestPage(Page):
                 models_comparison(path1, feature_table_1_k, Config.predict_feature, 0.1, k)
                 models_comparison(path2, feature_table_05_k, Config.predict_feature, 0.05, k)
                 models_comparison(path3, feature_table_01_k, Config.predict_feature, 0.01, k)
-
-
-            # feature_table_1_k5 = select_feature(anylisis_table_1, 5, 0.1)
-            # save_table(feature_table_1_k5, directory_support_1, 'select_feature_table_k=5.csv')
-            # feature_table_1_k7 = select_feature(anylisis_table_1, 7, 0.1)
-            # save_table(feature_table_1_k7, directory_support_1, 'select_feature_table_k=7.csv')
-            # feature_table_1_k10 = select_feature(anylisis_table_1, 10, 0.1)
-            # save_table(feature_table_1_k10, directory_support_1, 'select_feature_table_k=10.csv')
-
-            # feature_table_05_k3 = select_feature(anylisis_table_2, 3, 0.05)
-            # save_table(feature_table_05_k3, directory_support_05, 'select_feature_table_k=3.csv')
-            # feature_table_05_k5 = select_feature(anylisis_table_2, 5,0.05)
-            # save_table(feature_table_05_k5, directory_support_05, 'select_feature_table_k=5.csv')
-            # feature_table_05_k7 = select_feature(anylisis_table_2, 7, 0.05)
-            # save_table(feature_table_05_k7, directory_support_05, 'select_feature_table_k=7.csv')
-            # feature_table_05_k10 = select_feature(anylisis_table_2, 10, 0.05)
-            # save_table(feature_table_05_k10, directory_support_05, 'select_feature_table_k=10.csv')
-
-            # feature_table_01_k3 = select_feature(anylisis_table_3, 3, 0.01)
-            # save_table(feature_table_01_k3, directory_support_01, 'select_feature_table_k=3.csv')
-            # feature_table_01_k5 = select_feature(anylisis_table_3, 5, 0.01)
-            # save_table(feature_table_01_k5, directory_support_01, 'select_feature_table_k=5.csv')
-            # feature_table_01_k7 = select_feature(anylisis_table_3, 7, 0.01)
-            # save_table(feature_table_01_k7, directory_support_01, 'select_feature_table_k=7.csv')
-            # feature_table_01_k10 = select_feature(anylisis_table_3, 10, 0.01)
-            # save_table(feature_table_01_k10, directory_support_01, 'select_feature_table_k=10.csv')
-
-            ### models comparison
-
-
-
 
             st.write("Done")
             Config.file.close()
