@@ -25,15 +25,15 @@ class AssociationRulesPage(Page):
                 Config.test = dataset[int((len(Config.house_data)/5)*4):]
                 dataset = dataset[:int((len(Config.house_data)/5)*4)]
         if data == "Imdb Movies":
-                dataset = Config.imdb_data(frac=1).reset_index(drop=True)
+                dataset = Config.imdb_data.sample(frac=1).reset_index(drop=True)
                 Config.test = dataset[int((len(Config.imdb_data) / 5) * 4):]
                 dataset = dataset[:int((len(Config.imdb_data)/5)*4)]
         if data == "Uber":
-                dataset = Config.uber_data(frac=1).reset_index(drop=True)
+                dataset = Config.uber_data.sample(frac=1).reset_index(drop=True)
                 Config.test = dataset[int((len(Config.uber_data) / 5) * 4):]
                 dataset = dataset[:int((len(Config.uber_data)/5)*4)]
         if data == "Busiest Airports":
-                dataset = Config.airports_data(frac=1).reset_index(drop=True)
+                dataset = Config.airports_data.sample(frac=1).reset_index(drop=True)
                 Config.test = dataset[int((len(Config.airports_data) / 5) * 4):]
                 dataset = dataset[:int((len(Config.airports_data)/5)*4)]
 

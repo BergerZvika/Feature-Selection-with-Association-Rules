@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 
 
@@ -26,7 +28,7 @@ def fillna(dataset):
 class Config:
     # read the database
     house_data = pd.read_csv('data/train.csv', index_col='Id')
-    imdb_data = pd.read_csv('data/imdb.csv')
+    imdb_data = pd.read_csv('data/CarPrice_Assignment.csv')
     uber_data = pd.read_csv('data/uber.csv')
     airports_data = pd.read_csv('data/busiestAirports.csv')
 
@@ -41,4 +43,8 @@ class Config:
     feature_selection = "Not Found Feature Selection"
     predict_feature = "Not Found Predict Feature"
     test = "Not Found Test"
+
+    file = open("test.txt", 'w')
+    file.close()
+    os.remove("test.txt")
 

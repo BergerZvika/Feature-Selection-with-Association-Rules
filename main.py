@@ -1,5 +1,8 @@
 import streamlit as st
 import warnings
+
+from Pages.test_page import TestPage
+
 warnings.filterwarnings("ignore")
 
 from Pages.model_comparison_page import ModelComparisonPage
@@ -12,12 +15,12 @@ from Pages.association_rule_analysis_page import AssociationRuleAnalysisPage
 if __name__ == '__main__':
     st.sidebar.title("Feature Selection with Association Rules")
     menu = st.sidebar.radio('Navigation', ('Introduction', "Datasets", "Association Rules",
-                                           "Association Rule Analysis", "Feature Selection", "Model Comparison"))
+                                           "Association Rule Analysis", "Feature Selection", "Model Comparison", "Test"))
     st.sidebar.title("Details")
     st.sidebar.info(
-        "Authors: Zvi Berger and Ofir Nassimi")
+        "Author: Zvi Berger and Ofir Nassimi")
     st.sidebar.info(
-        "This Project analyzes associations rules on different datasets for feature selection")
+        "This Project analyzing associations rules on different datasets for feature selection")
     st.sidebar.info(
         "[Project Proposal](https://docs.google.com/document/d/1ZIQc4LTywLEE4cW4iO5XRoU99oeujnbDJJHZpqAo7mU/edit)")
 
@@ -48,6 +51,7 @@ if __name__ == '__main__':
     association_rules = AssociationRulesPage()
     association_rule_analysis = AssociationRuleAnalysisPage()
     model_comparison = ModelComparisonPage()
+    test = TestPage()
 
     if menu == 'Introduction':
         introduction.show_page()
@@ -66,3 +70,6 @@ if __name__ == '__main__':
 
     if menu == 'Model Comparison':
         model_comparison.show_page()
+
+    if menu == 'Test':
+        test.show_page()

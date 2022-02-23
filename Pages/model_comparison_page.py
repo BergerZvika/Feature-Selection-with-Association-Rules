@@ -108,6 +108,7 @@ class ModelComparisonPage(Page):
             st.markdown("For each featues predicted, the table contains the R-square error of the predictions and their mean squared "
                         "error regression loss.")
 
+
             r2 = [r2_data, r2_support, r2_confidence, r2_lift, r2_lift_distance]
             mse = [mse_data, mse_support, mse_confidence, mse_lift, mse_lift_distance]
             data_table = {'Features': ['All Features', 'Select feature by support', 'Select feature by confidence',
