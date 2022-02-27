@@ -14,18 +14,18 @@ class DatasetsPage(Page):
 
             st.write("""#### Dataset""")
             data = st.selectbox("Choose Dataset:",
-                                   ["House Sale Price", "Imdb Movies", "Uber", "Busiest Airports"])
+                                   [Config.DATASET_1, Config.DATASET_2, Config.DATASET_3, Config.DATASET_4])
 
             dataset = ""
 
-            if data == "House Sale Price":
-                dataset = Config.house_data
-            if data == "Imdb Movies":
-                dataset = Config.imdb_data
-            if data == "Uber":
-                dataset = Config.uber_data
-            if data == "Busiest Airports":
-                dataset = Config.airports_data
+            if data == Config.DATASET_1:
+                dataset = Config.dataset_1
+            if data == Config.DATASET_2:
+                dataset = Config.dataset_2
+            if data == Config.DATASET_3:
+                dataset = Config.dataset_3
+            if data == Config.DATASET_4:
+                dataset = Config.dataset_4
 
             st.dataframe(dataset)
             st.write("""#### More information about our dataset""")

@@ -27,17 +27,22 @@ def fillna(dataset):
 
 class Config:
     # read the database
-    house_data = pd.read_csv('data/train.csv', index_col='Id')
-    imdb_data = pd.read_csv('data/CarPrice_Assignment.csv')
-    uber_data = pd.read_csv('data/uber.csv')
-    airports_data = pd.read_csv('data/busiestAirports.csv')
+    DATASET_1 = "House Sale Price"
+    DATASET_2 = "IMDB"
+    DATASET_3 = "Uber"
+    DATASET_4 = "Airports"
 
-    house_data = fillna(house_data)
-    imdb_data = fillna(imdb_data)
-    uber_data = fillna(uber_data)
-    airports_data = fillna(airports_data)
+    dataset_1 = pd.read_csv('data/train.csv', index_col='Id')
+    dataset_2 = pd.read_csv('data/avocado.csv')
+    dataset_3 = pd.read_csv('data/uber.csv')
+    dataset_4 = pd.read_csv('data/busiestAirports.csv')
 
-    database = house_data
+    dataset_1 = fillna(dataset_1)
+    dataset_2 = fillna(dataset_2)
+    dataset_3 = fillna(dataset_3)
+    dataset_4 = fillna(dataset_4)
+
+    database = dataset_1
     association_rule_table = "Not Found Association Rule Table!!!"
     association_rule_analysis = "Not Found Association Rule Analysis Table!!!"
     feature_selection = "Not Found Feature Selection"
