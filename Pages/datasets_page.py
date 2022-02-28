@@ -14,18 +14,9 @@ class DatasetsPage(Page):
 
             st.write("""#### Dataset""")
             data = st.selectbox("Choose Dataset:",
-                                   [Config.DATASET_1, Config.DATASET_2, Config.DATASET_3, Config.DATASET_4])
+                                   Config.datasets_names)
 
-            dataset = ""
-
-            if data == Config.DATASET_1:
-                dataset = Config.dataset_1
-            if data == Config.DATASET_2:
-                dataset = Config.dataset_2
-            if data == Config.DATASET_3:
-                dataset = Config.dataset_3
-            if data == Config.DATASET_4:
-                dataset = Config.dataset_4
+            dataset = Config.datasets[data]
 
             st.dataframe(dataset)
             st.write("""#### More information about our dataset""")

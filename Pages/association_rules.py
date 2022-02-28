@@ -17,25 +17,12 @@ class AssociationRulesPage(Page):
         st.markdown("""## Find Association Rules on your Data""")
         st.write("""#### Dataset""")
         data = st.selectbox("Choose Dataset:",
-                            [Config.DATASET_1, Config.DATASET_2, Config.DATASET_3, Config.DATASET_4])
+                            Config.datasets_names)
 
-        dataset = {}
-        if data == Config.DATASET_1:
-                dataset = Config.dataset_1.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_1) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_1) / 5) * 4)]
-        if data == Config.DATASET_2:
-                dataset = Config.dataset_2.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_2) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_2) / 5) * 4)]
-        if data == Config.DATASET_3:
-                dataset = Config.dataset_3.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_3) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_3) / 5) * 4)]
-        if data == Config.DATASET_4:
-                dataset = Config.dataset_4.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_4) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_4) / 5) * 4)]
+        length = len(Config.datasets[data])
+        dataset = Config.datasets[data].sample(frac=1).reset_index(drop=True)
+        Config.test = dataset[int(length / 5 * 4):]
+        dataset = dataset[:int(length / 5 * 4)]
 
         st.write("""#### Association Rules""")
         st.write("In order to find more accurate results, entering minimum support and confidence can help us filter"

@@ -31,6 +31,7 @@ class Config:
     DATASET_2 = "NBA Rookie"
     DATASET_3 = "Diamods Price"
     DATASET_4 = "Airports"
+    datasets_names = [DATASET_1, DATASET_2, DATASET_3, DATASET_4]
 
     dataset_1 = pd.read_csv('data/train.csv', index_col=[0])
     dataset_2 = pd.read_csv('data/nba_rookie.csv', index_col=[0])
@@ -41,6 +42,12 @@ class Config:
     dataset_2 = fillna(dataset_2)
     dataset_3 = fillna(dataset_3)
     dataset_4 = fillna(dataset_4)
+    datasets = {
+        DATASET_1: dataset_1,
+        DATASET_2: dataset_2,
+        DATASET_3: dataset_3,
+        DATASET_4: dataset_4
+    }
 
     database = dataset_1
     association_rule_table = "Not Found Association Rule Table!!!"

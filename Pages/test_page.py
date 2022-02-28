@@ -248,30 +248,36 @@ class TestPage(Page):
         """)
 
         data = st.selectbox("Choose Dataset:",
-                            [Config.DATASET_1, Config.DATASET_2, Config.DATASET_3, Config.DATASET_4])
+                            Config.datasets_names)
 
-        df = {}
-        dataset = {}
-        if data == Config.DATASET_1:
-                df = Config.dataset_1
-                dataset = Config.dataset_1.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_1) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_1) / 5) * 4)]
-        if data == Config.DATASET_2:
-                df = Config.dataset_2
-                dataset = Config.dataset_2.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_2) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_2) / 5) * 4)]
-        if data == Config.DATASET_3:
-                df = Config.dataset_3
-                dataset = Config.dataset_3.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_3) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_3) / 5) * 4)]
-        if data == Config.DATASET_4:
-                df = Config.dataset_4
-                dataset = Config.dataset_4.sample(frac=1).reset_index(drop=True)
-                Config.test = dataset[int((len(Config.dataset_4) / 5) * 4):]
-                dataset = dataset[:int((len(Config.dataset_4) / 5) * 4)]
+        df = Config.datasets[data]
+        length = len(df)
+        dataset = Config.datasets[data].sample(frac=1).reset_index(drop=True)
+        Config.test = dataset[int(length / 5 * 4):]
+        dataset = dataset[:int(length / 5 * 4)]
+
+        # df = {}
+        # dataset = {}
+        # if data == Config.DATASET_1:
+        #         df = Config.dataset_1
+        #         dataset = Config.dataset_1.sample(frac=1).reset_index(drop=True)
+        #         Config.test = dataset[int((len(Config.dataset_1) / 5) * 4):]
+        #         dataset = dataset[:int((len(Config.dataset_1) / 5) * 4)]
+        # if data == Config.DATASET_2:
+        #         df = Config.dataset_2
+        #         dataset = Config.dataset_2.sample(frac=1).reset_index(drop=True)
+        #         Config.test = dataset[int((len(Config.dataset_2) / 5) * 4):]
+        #         dataset = dataset[:int((len(Config.dataset_2) / 5) * 4)]
+        # if data == Config.DATASET_3:
+        #         df = Config.dataset_3
+        #         dataset = Config.dataset_3.sample(frac=1).reset_index(drop=True)
+        #         Config.test = dataset[int((len(Config.dataset_3) / 5) * 4):]
+        #         dataset = dataset[:int((len(Config.dataset_3) / 5) * 4)]
+        # if data == Config.DATASET_4:
+        #         df = Config.dataset_4
+        #         dataset = Config.dataset_4.sample(frac=1).reset_index(drop=True)
+        #         Config.test = dataset[int((len(Config.dataset_4) / 5) * 4):]
+        #         dataset = dataset[:int((len(Config.dataset_4) / 5) * 4)]
 
         iterations = st.number_input("Choose number of tests (1-20):", value=3)
         if iterations > 20:
