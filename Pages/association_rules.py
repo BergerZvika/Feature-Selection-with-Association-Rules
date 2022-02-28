@@ -37,7 +37,6 @@ class AssociationRulesPage(Page):
                 Config.test = dataset[int((len(Config.dataset_4) / 5) * 4):]
                 dataset = dataset[:int((len(Config.dataset_4) / 5) * 4)]
 
-
         st.write("""#### Association Rules""")
         st.write("In order to find more accurate results, entering minimum support and confidence can help us filter"
                  " less informative rules.")

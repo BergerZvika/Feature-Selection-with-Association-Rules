@@ -28,14 +28,14 @@ def fillna(dataset):
 class Config:
     # read the database
     DATASET_1 = "House Sale Price"
-    DATASET_2 = "IMDB"
-    DATASET_3 = "Uber"
+    DATASET_2 = "NBA Rookie"
+    DATASET_3 = "Diamods Price"
     DATASET_4 = "Airports"
 
-    dataset_1 = pd.read_csv('data/train.csv', index_col='Id')
-    dataset_2 = pd.read_csv('data/avocado.csv')
-    dataset_3 = pd.read_csv('data/uber.csv')
-    dataset_4 = pd.read_csv('data/busiestAirports.csv')
+    dataset_1 = pd.read_csv('data/train.csv', index_col=[0])
+    dataset_2 = pd.read_csv('data/nba_rookie.csv', index_col=[0])
+    dataset_3 = pd.read_csv('data/diamonds.csv', index_col=[0])
+    dataset_4 = pd.read_csv('data/busiestAirports.csv', index_col=[0])
 
     dataset_1 = fillna(dataset_1)
     dataset_2 = fillna(dataset_2)

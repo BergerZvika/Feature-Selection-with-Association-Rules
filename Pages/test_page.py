@@ -69,10 +69,12 @@ def select_feature(df, k, support):
         for i in data.index:
             sp = i.split('->')
             left = sp[0]
-            left = left.replace('{', '').replace('}', '').replace(' ', '').replace('(', '').replace('\'', '')
+            left = left.replace('{', '').replace('}', '').replace('(', '').replace('\'', '')
             left = left.split(',')
             i = 0
             while i < len(left) and len(feature) < k:
+                f = left[i].strip()
+                feature.add(f)
                 feature.add(left[i])
                 i += 2
         return list(feature)
