@@ -16,7 +16,7 @@ class IntroductionPage(Page):
         the association rules we’ve seen in class and to predict the 
         most important ones.""")
 
-        st.write("""### Our Solution:""")
+        st.write("""### Our Solution""")
         st.markdown("""My idea to try to solve this problem is by using
          the concepts of association rules - support, confidence and lift
           on the dataset. First, I will find the association rules on the 
@@ -25,7 +25,7 @@ class IntroductionPage(Page):
            last step would be re-ordering the features by the max values they got. In this
             way I can determine which of them are most informative and valuable. """)
 
-        st.write("""### Experiment Plan:""")
+        st.write("""### Experiment Plan""")
         st.markdown("""In order to test the effectiveness of my
         solution, I will conduct a comparison experiment on the same 
         databases by running the ReliefF algorithm, which is an algorithm that

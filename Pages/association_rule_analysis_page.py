@@ -10,7 +10,7 @@ class AssociationRuleAnalysisPage(Page):
         st.write("By the given support and confidence thresholds, in this page we can analise all the association"
                     " rules we received. In cases of large amount of rules, watching them in a table with all of their"
                     " information and sorting them by a specific concept can help us understand them better.""")
-        st.write("""## Associatiom Rule Table""")
+        st.write("""## Association Rule Table""")
         st.markdown("Here you can see all of the rules of the chosen dataset in a table. You can sort them by each"
                     " calculated concept, from high to low, such as support and confidence.")
 
@@ -45,6 +45,8 @@ class AssociationRuleAnalysisPage(Page):
                            mime='text/csv')
 
         st.write("""## Select Predict Feature""")
+        st.markdown("Here you can choose a predict feature. The table shown below contains all the association rules"
+                    " that contain this feature.")
         l = list(Config.database.columns)
         l.reverse()
         feature = st.selectbox("Select Feature:", l)

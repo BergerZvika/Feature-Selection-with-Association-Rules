@@ -30,13 +30,13 @@ class Config:
     DATASET_1 = "House Sale Price"
     DATASET_2 = "NBA Rookie"
     DATASET_3 = "Diamods Price"
-    DATASET_4 = "Airports"
+    DATASET_4 = "Trains in France"
     datasets_names = [DATASET_1, DATASET_2, DATASET_3, DATASET_4]
 
     dataset_1 = pd.read_csv('data/train.csv', index_col=[0])
     dataset_2 = pd.read_csv('data/nba_rookie.csv', index_col=[0])
     dataset_3 = pd.read_csv('data/diamonds.csv', index_col=[0])
-    dataset_4 = pd.read_csv('data/busiestAirports.csv', index_col=[0])
+    dataset_4 = pd.read_csv('data/transport.csv', index_col=[0])
 
     dataset_1 = fillna(dataset_1)
     dataset_2 = fillna(dataset_2)

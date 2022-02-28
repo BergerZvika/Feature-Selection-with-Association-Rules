@@ -279,6 +279,11 @@ class TestPage(Page):
         #         Config.test = dataset[int((len(Config.dataset_4) / 5) * 4):]
         #         dataset = dataset[:int((len(Config.dataset_4) / 5) * 4)]
 
+        l = list(df.columns)
+        l.reverse()
+        feature = st.selectbox("Select Feature:", l)
+        Config.predict_feature = feature
+
         iterations = st.number_input("Choose number of tests (1-20):", value=3)
         if iterations > 20:
             st.error("Too many tests")
@@ -363,9 +368,9 @@ class TestPage(Page):
                 Config.file.write('\n')
 
                 #### associations rules analysis
-                l = list(Config.database.columns)
-                l.reverse()
-                Config.predict_feature = l[0]
+                #l = list(Config.database.columns)
+                #l.reverse()
+                #Config.predict_feature = l[0]
 
                 anylisis_table_1 = anylisis_rules(rules_1, Config.predict_feature, 0.1)
                 save_table(anylisis_table_1, directory_support_1, 'associations_rules_analysis.csv')
