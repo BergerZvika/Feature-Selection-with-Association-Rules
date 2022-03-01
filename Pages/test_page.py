@@ -75,7 +75,6 @@ def select_feature(df, k, support):
             while i < len(left) and len(feature) < k:
                 f = left[i].strip()
                 feature.add(f)
-                feature.add(left[i])
                 i += 2
         return list(feature)
 
@@ -256,34 +255,6 @@ class TestPage(Page):
         Config.test = dataset[int(length / 5 * 4):]
         dataset = dataset[:int(length / 5 * 4)]
 
-        # df = {}
-        # dataset = {}
-        # if data == Config.DATASET_1:
-        #         df = Config.dataset_1
-        #         dataset = Config.dataset_1.sample(frac=1).reset_index(drop=True)
-        #         Config.test = dataset[int((len(Config.dataset_1) / 5) * 4):]
-        #         dataset = dataset[:int((len(Config.dataset_1) / 5) * 4)]
-        # if data == Config.DATASET_2:
-        #         df = Config.dataset_2
-        #         dataset = Config.dataset_2.sample(frac=1).reset_index(drop=True)
-        #         Config.test = dataset[int((len(Config.dataset_2) / 5) * 4):]
-        #         dataset = dataset[:int((len(Config.dataset_2) / 5) * 4)]
-        # if data == Config.DATASET_3:
-        #         df = Config.dataset_3
-        #         dataset = Config.dataset_3.sample(frac=1).reset_index(drop=True)
-        #         Config.test = dataset[int((len(Config.dataset_3) / 5) * 4):]
-        #         dataset = dataset[:int((len(Config.dataset_3) / 5) * 4)]
-        # if data == Config.DATASET_4:
-        #         df = Config.dataset_4
-        #         dataset = Config.dataset_4.sample(frac=1).reset_index(drop=True)
-        #         Config.test = dataset[int((len(Config.dataset_4) / 5) * 4):]
-        #         dataset = dataset[:int((len(Config.dataset_4) / 5) * 4)]
-
-        l = list(df.columns)
-        l.reverse()
-        feature = st.selectbox("Select Feature:", l)
-        Config.predict_feature = feature
-
         iterations = st.number_input("Choose number of tests (1-20):", value=3)
         if iterations > 20:
             st.error("Too many tests")
@@ -368,9 +339,9 @@ class TestPage(Page):
                 Config.file.write('\n')
 
                 #### associations rules analysis
-                #l = list(Config.database.columns)
-                #l.reverse()
-                #Config.predict_feature = l[0]
+                l = list(Config.database.columns)
+                l.reverse()
+                Config.predict_feature = l[0]
 
                 anylisis_table_1 = anylisis_rules(rules_1, Config.predict_feature, 0.1)
                 save_table(anylisis_table_1, directory_support_1, 'associations_rules_analysis.csv')

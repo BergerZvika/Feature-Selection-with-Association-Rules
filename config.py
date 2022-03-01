@@ -30,7 +30,7 @@ class Config:
     DATASET_1 = "House Sale Price"
     DATASET_2 = "NBA Rookie"
     DATASET_3 = "Diamods Price"
-    DATASET_4 = "Trains in France"
+    DATASET_4 = "Transport"
     datasets_names = [DATASET_1, DATASET_2, DATASET_3, DATASET_4]
 
     dataset_1 = pd.read_csv('data/train.csv', index_col=[0])
