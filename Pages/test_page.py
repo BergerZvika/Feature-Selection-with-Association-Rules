@@ -248,7 +248,7 @@ class TestPage(Page):
 
         data = st.selectbox("Choose Dataset:",
                             Config.datasets_names)
-
+        Config.database = Config.datasets[data]
         df = Config.datasets[data]
         length = len(df)
         dataset = Config.datasets[data].sample(frac=1).reset_index(drop=True)
