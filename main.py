@@ -24,8 +24,9 @@ if __name__ == '__main__':
     st.sidebar.info(
         "[Project Proposal](https://docs.google.com/document/d/1ZIQc4LTywLEE4cW4iO5XRoU99oeujnbDJJHZpqAo7mU/edit)")
 
-    st.sidebar.info("[Report]")
+    st.sidebar.info("[Report](https://drive.google.com/file/d/1Vl_iJLNBdscOHjPpyP8pDdZ5yhiT9ESg/view?usp=sharing)")
     st.sidebar.info("[Github](https://github.com/BergerZvika/Feature-Selection-with-Association-Rules)")
+    st.sidebar.info("[Google Colab Notebook](https://colab.research.google.com/drive/1fnJf6zoGL4Sovv8LYbm-2WWChMSkc4ed?usp=sharing)")
 
     st.sidebar.title("Related Work")
     st.sidebar.info(
