@@ -37,13 +37,13 @@ if __name__ == '__main__':
 
     st.sidebar.title("Kaggle Dataset")
     st.sidebar.info(
-        "[Busiest Airports by Passenger Traffic](https://www.kaggle.com/jonahmary17/airports)")
+        "[House Price](https://www.kaggle.com/c/house-prices-advanced-regression-techniques/data?select=train.csv)")
     st.sidebar.info(
-        "[Uber Fares Dataset](https://www.kaggle.com/yasserh/uber-fares-dataset)")
+        "[Diamond](https://www.kaggle.com/datasets/shivam2503/diamonds)")
     st.sidebar.info(
-        "[Top 250s in IMDB](https://www.kaggle.com/ramjasmaurya/top-250s-in-imdb)")
+        "[Avocado](https://www.kaggle.com/datasets/timmate/avocado-prices-2020)")
     st.sidebar.info(
-        "[Miami Housing Dataset](https://www.kaggle.com/deepcontractor/miami-housing-dataset)")
+        "[NBA Rookie](https://data.world/exercises/logistic-regression-exercise-1)")
 
 
     introduction = IntroductionPage()
